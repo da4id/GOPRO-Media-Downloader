@@ -33,13 +33,17 @@ class GoProDownloadHelper:
         return listdir(self.downloadFolder)
 
     def downloadFile(self, directory, file_name):
-        print(f'Downloading {file_name}')
-        p = path.join(self.downloadFolder, file_name)
-        downloaded = requests.get(path.join(self.baseUrl, directory, file_name))
-        with open(p, 'wb') as f:
-            f.write(downloaded.content)
-        print(f'Download of {file_name} completed')
-        return p
+        while True:
+            try:
+                print(f'Downloading {file_name}')
+                p = path.join(self.downloadFolder, file_name)
+                downloaded = requests.get(path.join(self.baseUrl, directory, file_name))
+                with open(p, 'wb') as f:
+                    f.write(downloaded.content)
+                print(f'Download of {file_name} completed')
+                return p
+            except:
+                pass
 
     def create_download_folder(self):
         Path(self.downloadFolder).mkdir(parents=True, exist_ok=True)

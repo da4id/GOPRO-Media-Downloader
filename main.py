@@ -19,7 +19,10 @@ if __name__ == '__main__':
                 imPath = downloadHelper.downloadFile(directory, current_download)
 
                 if os.path.isfile(imPath):
-                    copyFile = ImageMetadataHelper.creatonDateInRange(imPath, 7, 18)
+                    try:
+                        copyFile = ImageMetadataHelper.creatonDateInRange(imPath, 7, 18)
+                    except:
+                        copyFile = False
                     if copyFile:
                         print(imPath, "copy")
                         shutil.copy(imPath, os.path.join(destPath, current_download))
