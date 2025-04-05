@@ -4,7 +4,7 @@ import os
 import ImageMetadataHelper
 import shutil
 
-destPath = 'D:\\Timelapse3\\'
+destPath = 'D:\\Timelapse4\\'
 
 if __name__ == '__main__':
     downloadHelper = GoProDownloadHelper()
@@ -14,9 +14,9 @@ if __name__ == '__main__':
         to_download = downloadHelper.getListOfFiles(directory)
         downloadHelper.create_download_folder()
         alreadyDownloaded = downloadHelper.getExistingFiles()
-        for current_download in tqdm(to_download):
-            if current_download not in alreadyDownloaded:
-                imPath = downloadHelper.downloadFile(directory, current_download)
+        for filename in tqdm(to_download):
+            if filename not in alreadyDownloaded:
+                imPath = downloadHelper.downloadFile(directory, filename)
 
                 if os.path.isfile(imPath):
                     try:
@@ -25,4 +25,5 @@ if __name__ == '__main__':
                         copyFile = False
                     if copyFile:
                         print(imPath, "copy")
-                        shutil.copy(imPath, os.path.join(destPath, current_download))
+                        newImPath = os.path.join(ImageMetadataHelper.getDestFolder(imPath, destPath), filename)
+                        shutil.copy(imPath, newImPath)

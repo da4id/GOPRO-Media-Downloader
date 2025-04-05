@@ -14,9 +14,19 @@ def creation_date(path_to_file):
 
 def creatonDateInRange(file, fromTime, toTime):
     createDate = creation_date(file)
-    return fromTime < createDate.hour < toTime
+    return fromTime <= createDate.hour < toTime
 
 def clearAndCreateDestPath():
     if os.path.isdir(destPath):
         shutil.rmtree(destPath)
     os.mkdir(destPath)
+
+def getDestFolder(path_to_file, destPath):
+    createDate = creation_date(path_to_file)
+    isWeekend = createDate.weekday() >= 5
+    destPathNew = destPath + '\\' + createDate.strftime('%Y.%m.%d')
+    if isWeekend:
+        destPathNew = destPath + '\\' + 'SaSo'
+    if not os.path.isdir(destPathNew):
+        os.mkdir(destPathNew)
+    return destPathNew
